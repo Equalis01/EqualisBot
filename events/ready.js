@@ -4,6 +4,7 @@ const path = require('node:path');
 function exec(args) {
   const client = args[0]
   console.log(`🆔 Logged in ${client.user.username} (${client.user.id})`);
+  console.log(client.guilds.cache.map(e=>e.id))
   const commands = [];
   const commandsPath = path.join(__dirname, '../commands');
   const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
@@ -13,7 +14,7 @@ function exec(args) {
     const command = require(filePath);
     commands.push(command.data.toJSON());
   }
-
+  client.application.commands.set([])
   client.application.commands.set(commands,"1041059309708124212").catch((e)=>{
     console.error(e.rawError)
   });

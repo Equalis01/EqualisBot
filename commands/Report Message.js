@@ -30,7 +30,7 @@ async function exec(args) {
 					.setStyle(ButtonStyle.Link)
           .setURL(target.url),
 			);
-  await interaction.editReply({"content":"Reported!","ephemeral":true})
+  await interaction.reply({"content":"Reported!","ephemeral":true})
   let channel = await interaction.client.channels.fetch("1015314333158342777")
   channel.send({ embeds: [embed], components:[row] })
 }

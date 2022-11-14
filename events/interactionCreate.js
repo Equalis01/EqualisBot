@@ -4,7 +4,8 @@ async function exec(args) {
   if (interaction.isButton()) {
     require("../buttons/"+interaction.customId).exec(interaction)
   } else if (interaction.isCommand()) {
-    await interaction.deferReply()
+    //console.log(interaction)
+    if (interaction.commandType != 3) await interaction.deferReply()
     require("../commands/"+interaction.commandName).exec(args)
   } else if (interaction.isSelectMenu()) {
     require("../selectmenu/"+interaction.customId).exec(args)
