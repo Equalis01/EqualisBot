@@ -6,7 +6,7 @@ async function exec(args) {
   } else if (interaction.isCommand()) {
     //console.log(interaction)
     if (interaction.commandType != 3) await interaction.deferReply()
-    require("../commands/"+interaction.commandName).exec(args)
+    require("../commands/"+interaction.commandName+".js").exec(args)
   } else if (interaction.isSelectMenu()) {
     require("../selectmenu/"+interaction.customId).exec(args)
   } else if (interaction.isModalSubmit()) {

@@ -1,7 +1,11 @@
 const fs = require('node:fs');
 const path = require('node:path');
+require('dotenv').config()
+const db = require('monk')(process.env.mongodb)
+const { EmbedBuilder } = require('discord.js');
+const users = db.get('users')
 
-function exec(args) {
+async function exec(args) {
   const client = args[0]
   console.log(`🆔 Logged in ${client.user.username} (${client.user.id})`);
   console.log(client.guilds.cache.map(e=>e.id))
@@ -15,7 +19,7 @@ function exec(args) {
     commands.push(command.data.toJSON());
   }
   client.application.commands.set([])
-  client.application.commands.set(commands,"1041059309708124212").catch((e)=>{
+  client.application.commands.set(commands,"1015313028985671680").catch((e)=>{
     console.error(e.rawError)
   });
   console.log("=======================")
@@ -29,6 +33,21 @@ function exec(args) {
   if (commands.length === 0) console.log("= No Slash Commands")
   console.log("=======================")
   client.user.setPresence({ activities: [{ name: 'with discord.js' }], status: 'idle' });
+  var interval = setInterval(async () => {
+    date = new Date();
+    let birthday_users = await users.find({
+      birthdayDay:date.getDate(),
+      birthdayMonth:date.getMonth()+1
+    })
+    if (birthday_users.length === 0) return;
+    let mapped_users = birthday_users.map((user)=>{return "<@"+user.id+">"})
+    let message = "Today it is "+ (mapped_users.length == 2 ? mapped_users.join(" and ") : mapped_users.join(", ")) + "'s birthday!"
+    let embed = new EmbedBuilder()
+    .setTitle("🥳 Today's Birthdays 🥳")
+    .setDescription(message)
+    let channel = await client.channels.fetch("1048997805349408828")
+    channel.send({ embeds: [embed] })
+  }, 15000);
 }
 
 module.exports = {

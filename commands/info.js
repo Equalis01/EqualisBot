@@ -30,6 +30,10 @@ async function exec(args) {
       {
         "name":"Dependencies",
         "value":Object.keys(dependencies).join(", ")
+      },
+      {
+        "name":"Changelog",
+        "value":"Added /birthday and automatic birthday message sending!"
       }
     )
   await interaction.editReply({embeds:[embed]})
